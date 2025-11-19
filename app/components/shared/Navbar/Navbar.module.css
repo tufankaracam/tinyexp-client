@@ -1,0 +1,12 @@
+.navbar{
+    background-color: crimson;
+    color: white;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    padding: 0px 11px;
+}
+
+.logo{
+    font-size: 21px;
+}

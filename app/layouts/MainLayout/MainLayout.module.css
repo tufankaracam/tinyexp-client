@@ -1,0 +1,9 @@
+.mainlayout{
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+}
+
+.content{
+    flex: 1;
+}

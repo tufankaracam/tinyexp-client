@@ -1,0 +1,17 @@
+.bottommenu{
+    background-color: crimson;
+    color: white;
+    height: 56px;
+    display: flex;
+}
+
+.bottommenuuitem{
+    border: none;
+    color: white;
+    background-color:crimson;
+    flex: 1;
+}
+
+.bottommenuuitem:active{
+    filter:brightness(0.7) ;
+}
