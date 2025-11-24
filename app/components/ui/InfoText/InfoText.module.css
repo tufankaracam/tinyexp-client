@@ -1,0 +1,29 @@
+.infotext {
+  width: 100%;
+  display: flex;
+  padding: 3px;
+}
+
+.label {
+  width: 75px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 400;
+  /* line-height: 21px; */
+  line-height: 1.5;
+  color: var(--color-old-gold-900);
+}
+
+.value {
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 14px;
+
+  /* line-height: 21px; */
+  line-height: 1.5;
+  color: var(--color-cadet-blue);
+}

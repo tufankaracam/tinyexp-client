@@ -1,0 +1,16 @@
+.button{
+    background: none;
+    border: none;
+    border-radius: 50%;
+    color: var(--color-yellow-52);
+    box-shadow: none;
+    width: 44px;
+    height: 44px;
+}
+
+.button:active{
+    border: 1px solid var(--color-yellow-52-500);
+    background: var(--color-yellow-52-500);
+    color: white;
+    
+}

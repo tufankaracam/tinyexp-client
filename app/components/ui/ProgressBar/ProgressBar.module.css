@@ -1,0 +1,22 @@
+.progressbar{
+    background-color: #181410;
+    overflow: hidden;
+    border-radius: 5px;
+    position: relative;
+}
+
+.info{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    color: white;
+    font-size: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.071);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.valuebar{
+    height: 100%;
+}

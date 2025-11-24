@@ -1,0 +1,15 @@
+.xpbadge {
+  color: white;
+  border: 3px solid #f5b907;
+  width: 100px;
+  height: 41px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  color: #f5b907;
+  background-color: #4c3d20;
+  -webkit-box-shadow: 0px 0px 21px 0px rgba(245, 185, 7, 0.38);
+  -moz-box-shadow: 0px 0px 21px 0px rgba(245, 185, 7, 0.38);
+  box-shadow: 0px 0px 21px 0px rgba(245, 185, 7, 0.38);
+}

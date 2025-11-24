@@ -1,8 +1,66 @@
-@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+:root{
+  --color-bastille: #1c1825;
+	--color-cadet-blue: #aab8c2;
+	--color-cinder-900: rgba(16, 13, 22, 0.9);
+	--color-mercury: #eaeaea;
+	--color-old-gold: #d4af37;
+	--color-old-gold-100: rgba(212, 175, 55, 0.1);
+	--color-old-gold-11-40: rgba(212, 175, 55, 0.11);
+	--color-old-gold-12-50: rgba(212, 175, 55, 0.12);
+	--color-old-gold-13-70: rgba(212, 175, 55, 0.14);
+	--color-old-gold-14-50: rgba(212, 175, 55, 0.14);
+	--color-old-gold-16-50: rgba(212, 175, 55, 0.17);
+	--color-old-gold-200: rgba(212, 175, 55, 0.2);
+	--color-old-gold-500: rgba(212, 175, 55, 0.5);
+	--color-old-gold-700: rgba(212, 175, 55, 0.7);
+	--color-old-gold-800: rgba(212, 175, 55, 0.8);
+	--color-royal-purple: #6a3a99;
+	--color-thunderbird: #b91c1c;
+	--color-old-gold-900: rgba(212, 175, 55, 0.9);
+	--color-thunderbird-11-40: rgba(185, 28, 28, 0.11);
+	--color-thunderbird-12-50: rgba(185, 28, 28, 0.12);
+	--color-thunderbird-13-30: rgba(185, 28, 28, 0.13);
+	--color-thunderbird-14-50: rgba(185, 28, 28, 0.14);
+	--color-thunderbird-100: rgba(185, 28, 28, 0.1);
+	--color-thunderbird-500: rgba(185, 28, 28, 0.5);
+	--color-white: #fff;
+	--color-white-cinder: #fff;
+  --color-white-solid: #fff;
+	--color-violet-7: #100d16;
+	--color-yellow-52-800: rgba(212, 175, 55, 0.8);
+	--color-violet-12: #1c1825;
+	--color-yellow-52-200: rgba(212, 175, 55, 0.2);
+	--color-yellow-52: #d4af37;
+	--color-grey-92: #eaeaea;
+	--color-yellow-52-100: rgba(212, 175, 55, 0.1);
+	--color-yellow-52-500: rgba(212, 175, 55, 0.5);
+	--color-red-42-100: rgba(185, 28, 28, 0.1);
+	--color-red-42-500: rgba(185, 28, 28, 0.5);
+	--color-red-42: #b91c1c;
+	--color-violet-41: #6a3a99;
+	--color-yellow-52-700: rgba(212, 175, 55, 0.7);
+	--color-azure-71: #aab8c2;
+	--color-violet-7-900: rgba(16, 13, 22, 0.9);
+	--color-yellow-52-12-50: rgba(212, 175, 55, 0.12);
+	--color-red-42-12-50: rgba(185, 28, 28, 0.12);
+	--color-yellow-52-11-40: rgba(212, 175, 55, 0.11);
+	--color-red-42-11-40: rgba(185, 28, 28, 0.11);
+	--color-yellow-52-14-50: rgba(212, 175, 55, 0.14);
+	--color-red-42-14-50: rgba(185, 28, 28, 0.14);
+	--color-yellow-52-13-70: rgba(212, 175, 55, 0.14);
+	--color-red-42-13-30: rgba(185, 28, 28, 0.13);
+	--color-yellow-52-16-50: rgba(212, 175, 55, 0.17);
+  --font-family: "Plus Jakarta Sans", sans-serif;
+  --second-family: "Inter", sans-serif;
+  --third-family: "Cinzel", sans-serif;
+}
+
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+  background: var(--color-violet-7) ;
 }
 
 #root {
@@ -10,8 +68,13 @@ html, body {
 }
 
 *{
-font-family: "Inconsolata", monospace;
+  font-family: var(--font-family);
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+.container{
+	display: flex;
+	flex-direction: column;
 }

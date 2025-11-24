@@ -1,0 +1,22 @@
+.button{
+    min-height: 44px;
+    min-width: 44px;
+    width: fit-content;
+    padding:0px 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    font-size: 21px;
+    border-radius: 5px;
+    font-size: 16px;
+    gap: 11px;
+    font-weight: 200;
+    -webkit-box-shadow: 4px 4px 21px -14px rgba(66, 68, 90, 1);
+    -moz-box-shadow: 4px 4px 21px -14px rgba(66, 68, 90, 1);
+    box-shadow: 4px 4px 21px -14px rgba(66, 68, 90, 1);
+}
+
+.button:active{
+    filter: brightness(1.2);
+}

@@ -1,15 +1,22 @@
 .bottommenu{
-    background-color: crimson;
     color: white;
-    height: 56px;
     display: flex;
+    box-shadow: 0 0 5px 0 rgba(255, 255, 255, 0.094);
+    background: var(--color-violet-12);
+
 }
 
 .bottommenuuitem{
     border: none;
     color: white;
-    background-color:crimson;
+    background: var(--color-violet-12);
     flex: 1;
+    height: 81px;
+    font-size: 14px;
+}
+
+.bottommenuuitem:not(:last-child){
+    border-right: 1px solid rgba(255, 255, 255, 0.027);
 }
 
 .bottommenuuitem:active{

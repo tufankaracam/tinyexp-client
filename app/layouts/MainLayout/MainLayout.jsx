@@ -8,12 +8,9 @@ export default function MainLayout() {
   const matches = useMatches();
   return (
     <div className={css.mainlayout}>
-      <Navbar />
-      <div>{matches[matches.length-1]?.handle?.path}</div>
+      
       <div className={css.content}>
-        <Wrapper>
-          <Outlet />
-        </Wrapper>
+        <Outlet />
       </div>
       <BottomMenu />
     </div>

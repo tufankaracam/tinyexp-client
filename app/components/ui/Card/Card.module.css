@@ -1,0 +1,13 @@
+.card{
+    border-radius: 11px;
+    padding: 21px 21px 11px 21px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    border: 1px solid var(--color-yellow-52-200);
+    border-radius: 8px;
+
+    box-shadow: 0 0 15px 0 rgba(212, 175, 55, 0.3);
+    background: var(--color-violet-12);
+}

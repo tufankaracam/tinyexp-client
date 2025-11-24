@@ -1,3 +1,8 @@
+import ActivityLogCard from '../../components/features/activitylogs/ActivityLogCard/ActivityLogCard';
+import CategoryCard from '../../components/features/categories/CategoryCard/CategoryCard';
+import EmptyCard from '../../components/shared/EmptyCard/EmptyCard';
+import Navbar from '../../components/shared/Navbar/Navbar';
+import Wrapper from '../../components/shared/Wrapper/Wrapper';
 import css from './activitylogs.module.css';
 
 export const handle = {
@@ -6,6 +11,16 @@ export const handle = {
 
 export default function ActivityLogsPage() {
   return (
-    <div>activitylogs</div>
+    <div>
+      <Navbar title="Activity Logs"/>
+            <Wrapper>
+              <ActivityLogCard/>
+              <ActivityLogCard/>
+              <ActivityLogCard/>
+              <ActivityLogCard/>
+              <ActivityLogCard/>
+              <EmptyCard/>
+            </Wrapper>
+    </div>
   )
 }

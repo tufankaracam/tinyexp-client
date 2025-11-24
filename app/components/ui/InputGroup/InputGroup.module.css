@@ -1,0 +1,6 @@
+.inputgroup{
+    display: flex;
+    flex-direction: row;
+    gap: 11px;
+    justify-content: flex-end;
+}
