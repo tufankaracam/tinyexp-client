@@ -1,0 +1,11 @@
+.button{
+    background: var(--color-lisbon-brown);
+    border: none;
+    color: var(--color-white-solid);
+    border-radius: 8px;
+    padding-block: 0px;
+    padding-inline: 20px;
+    min-width: 84px;
+    max-width: 480px;
+    width: 100%;
+}

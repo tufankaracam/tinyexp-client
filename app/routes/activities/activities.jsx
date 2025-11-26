@@ -4,6 +4,13 @@ import Navbar from "../../components/shared/Navbar/Navbar";
 import Wrapper from "../../components/shared/Wrapper/Wrapper";
 import css from "./activities.module.css";
 import EmptyCard from "../../components/shared/EmptyCard/EmptyCard";
+import Breadcrumb from "../../components/shared/Breadcrumb/Breadcrumb";
+import { useMatch, useMatches } from "react-router";
+
+export const handle = {
+  title: "Activities",
+  breadcrumb: ["categories","subcategories","activities"]
+};
 
 export default function ActivitiesPage() {
   const [data, setData] = useState([
@@ -41,10 +48,13 @@ export default function ActivitiesPage() {
       value: 750,
     },
   ]);
+  const matches = useMatches();
+  const breadcrumb = matches[matches.length - 1]?.handle?.breadcrumb;
   return (
     <div>
       <Navbar title="Activities" />
       <Wrapper>
+       <Breadcrumb data={breadcrumb} />
         {data.map((c) => (
           <CategoryCard
             name={c.name}

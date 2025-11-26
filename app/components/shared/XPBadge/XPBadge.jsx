@@ -5,5 +5,5 @@ export default function XPBadge({xp=0}) {
     <div className={css.xpbadge}>
         {xp} XP
     </div>
-  )
+  ) 
 }

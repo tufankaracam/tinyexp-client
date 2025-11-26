@@ -1,0 +1,10 @@
+.breadcrumb{
+    display: flex;
+    font-size: 14px;
+    color: var(--color-cadet-blue);
+}
+
+.route:not(:last-child)::after{
+    content:">";
+    padding: 0px 5px;
+}

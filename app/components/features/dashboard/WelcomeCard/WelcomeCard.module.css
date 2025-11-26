@@ -1,0 +1,24 @@
+.welcomecard{
+    display: flex;
+    flex-direction: column;
+}
+
+.message{
+    font-family: var(--first-family);
+    font-size: 20px;
+
+    /* line-height: 25px; */ 
+    line-height: 1.25;
+    letter-spacing: 0.03em;
+    color: var(--color-grey-92);
+}
+
+.username{
+    font-family: var(--third-family);
+    font-size: 41px;
+
+    /* line-height: 25px; */ 
+    line-height: 1.25;
+    letter-spacing: 0.03em;
+    color: var(--color-grey-92);
+}

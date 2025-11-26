@@ -5,6 +5,8 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useMatch,
+  useMatches,
 } from "react-router";
 
 import "./app.css";
@@ -41,6 +43,7 @@ export function Layout({ children }) {
 }
 
 export default function App() {
+  const matches = useMatches();
   return <Outlet />;
 }
 
