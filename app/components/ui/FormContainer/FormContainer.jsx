@@ -1,16 +1,18 @@
 import CancelButton from "../../shared/CancelButton/CancelButton";
 import SaveButton from "../../shared/SaveButton/SaveButton";
-import css from "./Form.module.css";
+import css from "./FormContainer.module.css";
+import {Form} from 'react-router';
 import { IoCloseOutline } from "react-icons/io5";
 
-export default function Form({ title="Form Title",close,children }) {
+export default function FormContainer({ title="Form Title",close,error,children,...rest }) {
   return (
-    <form className={css.form}>
+    <Form className={css.form} {...rest}>
+      {error && <span className={css.error}>{error}</span>}
       <div className={css.header}>
         <span className={css.title}>{title}</span>
-        <button type="button" className={css.closebutton} onClick={close}>
+        {close && (<button type="button" className={css.closebutton} onClick={close}>
           <IoCloseOutline />
-        </button>
+        </button>)}
       </div>
       <div className={css.content}>
         {children}
@@ -19,6 +21,6 @@ export default function Form({ title="Form Title",close,children }) {
         <CancelButton />
         <SaveButton />
       </div>
-    </form>
+    </Form>
   );
 }

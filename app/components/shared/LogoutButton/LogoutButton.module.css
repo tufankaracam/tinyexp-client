@@ -1,0 +1,13 @@
+.button{
+    background: var(--color-yellow-50);
+    border: none;
+    color: var(--white);
+    border-radius: 8px;
+    padding-block: 0px;
+    padding-inline: 20px;
+    min-width: 84px;
+    max-width: fit-content;
+    width: 100%;
+    background-color: crimson;
+}
+

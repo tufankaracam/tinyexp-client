@@ -7,9 +7,15 @@ import {
   ScrollRestoration,
   useMatch,
   useMatches,
+  useNavigate,
 } from "react-router";
-
+import { ToastContainer } from 'react-toastify';
 import "./app.css";
+import { sessionMiddleware } from "./middleware/session.server";
+
+export const middleware = [
+  sessionMiddleware,
+];
 
 export const links = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -35,6 +41,7 @@ export function Layout({ children }) {
       </head>
       <body>
         {children}
+        <ToastContainer />
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -48,16 +55,15 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }) {
+  const navigate = useNavigate();
   let message = "Oops!";
   let details = "An unexpected error occurred.";
   let stack;
 
   if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Error";
-    details =
-      error.status === 404
-        ? "The requested page could not be found."
-        : error.statusText || details;
+    //return navigate('/')
+    details = error.message;
+    stack = error.stack;
   } else if (import.meta.env.DEV && error && error instanceof Error) {
     details = error.message;
     stack = error.stack;

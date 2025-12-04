@@ -10,8 +10,6 @@
     flex-direction: column;
 }
 
-
-
 .content > div{
     display: flex;
     flex-direction: column;

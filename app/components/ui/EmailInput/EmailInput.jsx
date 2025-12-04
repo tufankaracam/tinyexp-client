@@ -1,10 +1,11 @@
 import css from "./EmailInput.module.css";
 
-export default function EmailInput({ label="text label",placeholder="placeholder", name, ...rest }) {
+export default function EmailInput({ label="text label",placeholder="placeholder", name,error, ...rest }) {
   return (
     <label className={css.container}>
       <span className={css.label}>{label}</span>
       <input className={css.input} type="email" name={name} placeholder={placeholder} {...rest} />
+      {error && (<span>{error}</span>)}
     </label>
   );
 }

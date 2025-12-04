@@ -15,34 +15,56 @@ import WelcomeCard from "../../components/features/dashboard/WelcomeCard/Welcome
 import SaveButton from "../../components/shared/SaveButton/SaveButton";
 import InfoGroup from "../../components/ui/InfoGroup/InfoGroup";
 import CancelButton from "../../components/shared/CancelButton/CancelButton";
-import Form from "../../components/ui/Form/Form";
+import FormContainer from "../../components/ui/FormContainer/FormContainer";
 import TextInput from "../../components/ui/TextInput/TextInput";
 import TextAreaInput from "../../components/ui/TextAreaInput/TextAreaInput";
 import NumberInput from "../../components/ui/NumberInput/NumberInput";
 import PasswordInput from "../../components/ui/PasswordInput/PasswordInput";
 import DateInput from "../../components/ui/DateInput/DateInput";
 import SelectInput from "../../components/ui/SelectInput/SelectInput";
+import { protectedRouteMiddleware } from "../../middleware/protectedRoute.server";
+import { getCharacter } from "../../services/api.server";
 
 export const handle = {
   title: "Dashboard Page",
   path: "> dashboard",
 };
 
-export default function DashboardPage() {
+export const middleware = [
+  protectedRouteMiddleware,
+];
+
+
+export async function loader({ context }) {
+
+  const { sessionContext } = await import("../../middleware/session.server");
+  const userData = context.get(sessionContext);
+
+  const list = await getCharacter(userData?.userData?.token);
+  console.log(list)
+  return { userData,list };
+}
+
+export default function DashboardPage({loaderData}) {
+  console.log(loaderData);
   return (
     <div>
       <Navbar title="Dashboard"/>
       <Wrapper>
-        <Form>
-          <TextInput />
-          <DateInput/>
-          <SelectInput />
-          <TextAreaInput/>
-          <NumberInput />
-          <PasswordInput />
-        </Form>
-        <WelcomeCard/>
-        <CategoryCard/>
+        <WelcomeCard username={loaderData?.userData?.userData?.username}/>
+        <CategoryCard
+                      key={loaderData?.list?.data[0]?.id}
+                      data={loaderData?.list?.data[0]}
+                      name={loaderData?.list?.data[0]?.name}
+                      parentId={loaderData?.list?.data[0]?.categoryId}
+                      type={"category"}
+                      level={3}
+                      xp={500}
+                      nextxp={1500}
+                      logs={21}
+                      subcount={3}
+                      activitycount={21}
+                    />
       </Wrapper>
     </div>
   );

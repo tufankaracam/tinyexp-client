@@ -74,15 +74,12 @@
 }
 
 html,
-body {
-  height: 100%;
+body,#root {
+  height: 100dvh;
   margin: 0;
   padding: 0;
   background: var(--color-violet-7);
-}
-
-#root {
-  height: 100%;
+  color: white;
 }
 
 * {

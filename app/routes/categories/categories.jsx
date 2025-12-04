@@ -8,75 +8,166 @@ import Breadcrumb from "../../components/shared/Breadcrumb/Breadcrumb";
 import { useMatches } from "react-router";
 import Modal from "../../components/ui/Modal/Modal";
 import Card from "../../components/ui/Card/Card";
-import Form from "../../components/ui/Form/Form";
+import FormContainer from "../../components/ui/FormContainer/FormContainer";
 import TextInput from "../../components/ui/TextInput/TextInput";
+import { protectedRouteMiddleware } from "../../middleware/protectedRoute.server";
+import { createCategories, deleteCategories, getCategories, updateCategories } from "../../services/api.server";
 
 export const handle = {
   title: "Categories",
   breadcrumb: ["categories"],
 };
 
-export default function CategoriesPage() {
+export const middleware = [protectedRouteMiddleware];
+
+export async function loader({ context }) {
+  const { sessionContext } = await import("../../middleware/session.server");
+  const userData = context.get(sessionContext);
+
+  const list = await getCategories(userData?.userData?.token);
+  console.log(list)
+  return { list };
+}
+
+export async function action({ request, context }) {
+  const { sessionContext } = await import("../../middleware/session.server");
+  const userData = context.get(sessionContext);
+  const formData = await request.formData();
+  const data = Object.fromEntries(formData);
+
+  let res = null;;
+
+  switch (data?.action) {
+    case "add":
+      res = await createCategories({token:userData?.userData?.token,name:data?.name})
+      break;
+    case "update":
+      res = await updateCategories({token:userData?.userData?.token,name:data?.name,id:data?.id})
+      break;
+    case "delete":
+      res = await deleteCategories({token:userData?.userData?.token,id:data?.id})
+      break;
+  }
+
+  return { res };
+}
+
+export default function CategoriesPage({ loaderData, actionData }) {
   const matches = useMatches();
   const breadcrumb = matches[matches.length - 1]?.handle?.breadcrumb;
-
   const [isOpen, setIsOpen] = useState(false);
+  const [formMode, setFormMode] = useState(false);
+  const [selectedData, setSelectedData] = useState(null);
 
-  const handleModalToggle = () => {
-    setIsOpen(!isOpen);
+  const closeModal = () => {
+    setIsOpen(false);
+    setFormMode(null);
   };
 
-  const [data, setData] = useState([
-    {
-      id: 1,
-      name: "Spor",
-      type: "category",
-      level: 3,
-      xp: 500,
-      logs: 21,
-      nextxp: 1500,
-      subcount: 4,
-      activitycount: 7,
-    },
-    {
-      id: 2,
-      name: "Beslenme",
-    },
-    {
-      id: 3,
-      name: "Kisisel Gelisim",
-    },
-  ]);
-
-  const openButton = () => {
-    alert("open aciliyor");
+  const showAddForm = (data) => {
+    setFormMode("add");
+    setIsOpen(true);
   };
+
+  const showEditForm = (data) => {
+    setSelectedData(data);
+    setFormMode("update");
+    setIsOpen(true);
+  };
+
+  const showDeleteForm = (data) => {
+    setSelectedData(data);
+    setFormMode("delete");
+    setIsOpen(true);
+  };
+
 
   return (
     <div>
-      <Navbar title="Categories" openButton={handleModalToggle} />
+      <Navbar title="Categories" openButton={showAddForm} />
       <Wrapper>
         <Breadcrumb data={breadcrumb} />
-        {data.map((c) => (
-          <CategoryCard
-            name={c.name}
-            type={c.type}
-            level={c.level}
-            xp={c.xp}
-            nextxp={c.nextxp}
-            logs={c.logs}
-            subcount={c.subcount}
-            activitycount={c.activitycount}
-          />
-        ))}
-        <EmptyCard />
-        <Modal isOpen={isOpen} close={handleModalToggle}>
-          <Form close={handleModalToggle}>
-            <TextInput />
-            <TextInput />
-            <TextInput />
-            <TextInput />
-          </Form>
+        {loaderData?.list?.data?.length > 0 ? (
+          loaderData?.list?.data?.map((c) => (
+            <CategoryCard
+              key={c.id}
+              data={c}
+              name={c.name}
+              parentId={c.categoryId}
+              type={"category"}
+              level={3}
+              xp={500}
+              nextxp={1500}
+              logs={21}
+              subcount={3}
+              activitycount={21}
+              openLink={`/categories/${c.id}/subcategories`}
+              onEdit={() => {
+                showEditForm(c);
+              }}
+              onDelete={() => {
+                showDeleteForm(c);
+              }}
+            />
+          ))
+        ) : (
+          <EmptyCard />
+        )}
+
+        <Modal isOpen={isOpen && formMode} close={closeModal}>
+          {formMode == "add" && (
+            <FormContainer
+              title="New Category"
+              action="/categories"
+              method="post"
+              error={actionData?.result?.message}
+              close={closeModal}
+            >
+              <input type="hidden" name="action" value="add" />
+              <TextInput
+                name="name"
+                label="category name"
+                placeholder="Health & Fitness"
+                autocomplete="off"
+              />
+            </FormContainer>
+          )}
+          {formMode == "update" && (
+            <FormContainer
+              title="Edit Category"
+              action="/categories"
+              method="post"
+              error={actionData?.result?.message}
+              close={closeModal}
+            >
+              {selectedData?.id && (
+                <input type="hidden" name="id" value={selectedData?.id} />
+              )}
+              <input type="hidden" name="action" value="update" />
+              <TextInput
+                name="name"
+                label="category name"
+                defaultValue={selectedData?.name}
+                placeholder="Health & Fitness"
+                autocomplete="off"
+              />
+            </FormContainer>
+          )}
+          {formMode == "delete" && (
+            <FormContainer
+              title="Delete Category"
+              action="/categories"
+              method="post"
+              error={actionData?.result?.message}
+              close={closeModal}
+            >
+              <span>Are you sure to delete?</span>
+              <input type="hidden" name="action" value="delete" />
+              {selectedData?.id && (
+                <input type="hidden" name="id" value={selectedData?.id} />
+              )}
+            </FormContainer>
+          )}
         </Modal>
       </Wrapper>
     </div>

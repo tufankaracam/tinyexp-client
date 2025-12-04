@@ -2,10 +2,10 @@ import { FaArrowRight } from "react-icons/fa";
 import Button from "../../ui/Button/Button";
 import css from "./OpenButton.module.css";
 
-export default function OpenButton({...rest}) {
+export default function OpenButton({text="Open",...rest}) {
   return (
     <Button className={css.button} {...rest}>
-        Open
+        {text}
       <FaArrowRight size={24}/>
     </Button>
   );
