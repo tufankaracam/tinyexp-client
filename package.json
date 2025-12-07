@@ -5,7 +5,7 @@
   "scripts": {
     "build": "react-router build",
     "dev": "react-router dev",
-    "start": "react-router-serve ./build/server/index.js"
+    "start": "PORT=5173 react-router-serve ./build/server/index.js"
   },
   "dependencies": {
     "@react-router/node": "^7.9.2",
