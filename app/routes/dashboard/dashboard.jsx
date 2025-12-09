@@ -41,12 +41,10 @@ export async function loader({ context }) {
   const userData = context.get(sessionContext);
 
   const list = await getCharacter(userData?.userData?.token);
-  console.log(list)
   return { userData,list };
 }
 
 export default function DashboardPage({loaderData}) {
-  console.log(loaderData);
   return (
     <div>
       <Navbar title="Dashboard"/>

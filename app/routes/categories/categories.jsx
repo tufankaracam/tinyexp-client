@@ -52,7 +52,6 @@ export async function action({ request, context }) {
 }
 
 export default function CategoriesPage({ loaderData, actionData }) {
-  console.log(actionData?.res?.success != true)
   const matches = useMatches();
   const breadcrumb = matches[matches.length - 1]?.handle?.breadcrumb;
   const [isOpen, setIsOpen] = useState(actionData?.res?.success != true);
