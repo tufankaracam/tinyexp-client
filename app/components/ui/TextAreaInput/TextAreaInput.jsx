@@ -1,10 +1,11 @@
 import css from "./TextAreaInput.module.css";
 
-export default function TextAreaInput({ label="textarea label",placeholder="placeholder", name, ...rest }) {
+export default function TextAreaInput({ label="textarea label",placeholder="placeholder", name,error, ...rest }) {
   return (
     <label className={css.container}>
       <span className={css.label}>{label}</span>
       <textarea rows={3} className={css.input} type="text" name={name} placeholder={placeholder} {...rest} />
+      {error && <span className={css.error}>{error}</span>}
     </label>
   );
 }

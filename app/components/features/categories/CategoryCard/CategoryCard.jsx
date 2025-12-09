@@ -38,10 +38,7 @@ export default function CategoryCard({
   const handleOpen = ()=>{
     navigate(openLink,{state:location});
   }
-  console.log('-------------------')
-  console.log(onEdit);
   const expData = calculateExpData(parseInt(data?.activityexp));
-  console.log(expData)
   return (
     <Card className={css.card}>
       <TitleText value={name} />

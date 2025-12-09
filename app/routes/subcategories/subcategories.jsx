@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CategoryCard from "../../components/features/categories/CategoryCard/CategoryCard";
 import Navbar from "../../components/shared/Navbar/Navbar";
 import Wrapper from "../../components/shared/Wrapper/Wrapper";
@@ -7,7 +7,6 @@ import EmptyCard from "../../components/shared/EmptyCard/EmptyCard";
 import Breadcrumb from "../../components/shared/Breadcrumb/Breadcrumb";
 import { useMatches } from "react-router";
 import { protectedRouteMiddleware } from "../../middleware/protectedRoute.server";
-
 import Modal from "../../components/ui/Modal/Modal";
 import FormContainer from "../../components/ui/FormContainer/FormContainer";
 import TextInput from "../../components/ui/TextInput/TextInput";
@@ -37,9 +36,7 @@ export async function loader({ request, context, params }) {
     userData?.userData?.token,
     params?.catid
   );
-  console.log(list?.data?.data);
-  /*   console.log(list);
-  console.log(categorylist); */
+
   const url = new URL(request.url);
   return { list, categorylist, pathname: url?.pathname };
 }
@@ -59,7 +56,6 @@ export async function action({ request, context, params }) {
   const data = Object.fromEntries(formData);
 
   let res = null;
-  console.log(data);
 
   switch (data?.action) {
     case "add":
@@ -95,10 +91,26 @@ export default function SubCategoriesPage({ loaderData, actionData }) {
   const [isOpen, setIsOpen] = useState(false);
   const [formMode, setFormMode] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
+  const [actionError, setActionError] = useState();
+  const [formError, setFormError] = useState(null);
+
+  useEffect(() => {
+    if (actionData?.res?.success) {
+      setIsOpen(false);
+      setFormMode(null);
+      setSelectedData(null);
+    } else {
+      setActionError(actionData?.res?.message);
+      setFormError(actionData?.res?.errors);
+    }
+  }, [actionData]);
 
   const closeModal = () => {
     setIsOpen(false);
     setFormMode(null);
+    setIsOpen(false);
+    setActionError(null);
+    setFormError(null);
   };
 
   const showAddForm = (data) => {
@@ -118,45 +130,11 @@ export default function SubCategoriesPage({ loaderData, actionData }) {
     setIsOpen(true);
   };
 
-  /* const [data, setData] = useState([
-    {
-      id: 1,
-      name: "Aerobik",
-      type: "subcategory",
-      level: 3,
-      xp: 500,
-      logs: 21,
-      nextxp: 1500,
-      subcount: 4,
-      activitycount: 7,
-    },
-    {
-      id: 2,
-      name: "Gunluk Kosu",
-      type: "subcategory",
-    },
-    {
-      id: 3,
-      name: "Jimnastik",
-      type: "subcategory",
-    },
-  ]); */
   return (
     <div>
       <Navbar title="Subcategories" openButton={showAddForm} />
       <Wrapper>
         <Breadcrumb data={breadcrumb} />
-        {/* {data.map((c) => (
-          <CategoryCard
-            name={c.name}
-            type={c.type}
-            level={c.level}
-            xp={c.xp}
-            nextxp={c.nextxp}
-            logs={c.logs}
-            activitycount={c.activitycount}
-          />
-        ))} */}
         {loaderData?.list?.data?.data?.length > 0 ? (
           loaderData?.list?.data?.data?.map((c) => (
             <CategoryCard
@@ -189,7 +167,7 @@ export default function SubCategoriesPage({ loaderData, actionData }) {
             <FormContainer
               title="New Subcategory"
               method="post"
-              error={actionData?.result?.message}
+              error={actionError}
               close={closeModal}
             >
               <input type="hidden" name="action" value="add" />
@@ -197,6 +175,7 @@ export default function SubCategoriesPage({ loaderData, actionData }) {
                 name="name"
                 label="name"
                 placeholder="Health & Fitness"
+                error={formError?.name}
                 autocomplete="off"
               />
             </FormContainer>
@@ -205,7 +184,7 @@ export default function SubCategoriesPage({ loaderData, actionData }) {
             <FormContainer
               title="Edit Subcategory"
               method="post"
-              error={actionData?.result?.message}
+              error={actionError}
               close={closeModal}
             >
               {selectedData?.id && (
@@ -217,6 +196,7 @@ export default function SubCategoriesPage({ loaderData, actionData }) {
                 label="category"
                 name="categoryid"
                 defaultValue={selectedData?.categoryid}
+                error={formError?.categoryid}
                 data={loaderData?.categorylist?.data}
               />
               <TextInput
@@ -224,6 +204,7 @@ export default function SubCategoriesPage({ loaderData, actionData }) {
                 label="name"
                 defaultValue={selectedData?.name}
                 placeholder="Health & Fitness"
+                error={formError?.name}
                 autocomplete="off"
               />
             </FormContainer>
@@ -232,8 +213,9 @@ export default function SubCategoriesPage({ loaderData, actionData }) {
             <FormContainer
               title="Delete Category"
               method="post"
-              error={actionData?.result?.message}
+              error={actionError}
               close={closeModal}
+              cancelClose={true}
             >
               <span>Are you sure to delete?</span>
               <input type="hidden" name="action" value="delete" />

@@ -4,6 +4,7 @@ export default function DateInput({
   label = "date label",
   placeholder = "placeholder",
   name,
+  error,
   ...rest
 }) {
   return (
@@ -16,6 +17,7 @@ export default function DateInput({
         placeholder={placeholder}
         {...rest}
       />
+      {error && <span className={css.error}>{error}</span>}
     </label>
   );
 }

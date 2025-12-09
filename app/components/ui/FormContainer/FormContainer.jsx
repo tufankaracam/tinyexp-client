@@ -4,7 +4,7 @@ import css from "./FormContainer.module.css";
 import {Form} from 'react-router';
 import { IoCloseOutline } from "react-icons/io5";
 
-export default function FormContainer({ title="Form Title",close,error,children,...rest }) {
+export default function FormContainer({ title="Form Title",close,cancelClose=false,error,children,...rest }) {
   return (
     <Form className={css.form} {...rest}>
       {error && <span className={css.error}>{error}</span>}
@@ -18,7 +18,7 @@ export default function FormContainer({ title="Form Title",close,error,children,
         {children}
       </div>
       <div className={css.footer}>
-        <CancelButton />
+        <CancelButton onClick={()=>{if(cancelClose){close()}}} />
         <SaveButton />
       </div>
     </Form>

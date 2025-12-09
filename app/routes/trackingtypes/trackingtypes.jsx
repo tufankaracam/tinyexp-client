@@ -7,7 +7,7 @@ import css from "./trackingtypes.module.css";
 import Breadcrumb from "../../components/shared/Breadcrumb/Breadcrumb";
 import { protectedRouteMiddleware } from "../../middleware/protectedRoute.server";
 import { createTrackingTypes, deleteTrackingTypes, getTrackingTypes, updateTrackingTypes } from "../../services/api.server";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "../../components/ui/Modal/Modal";
 import FormContainer from "../../components/ui/FormContainer/FormContainer";
 import TextInput from "../../components/ui/TextInput/TextInput";
@@ -55,10 +55,27 @@ export default function TrackingTypesPage({ loaderData, actionData }) {
   const [isOpen, setIsOpen] = useState(false);
   const [formMode, setFormMode] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
+    const [actionError,setActionError] = useState(null);
+  const [formError,setFormError] = useState(null);
+
+useEffect(() => {
+    if (actionData?.res?.success) {
+      setIsOpen(false);
+      setFormMode(null);
+      setSelectedData(null);
+    }
+    else{
+      setActionError(actionData?.res?.message);
+      setFormError(actionData?.res?.errors);
+    }
+  }, [actionData]);
 
   const closeModal = () => {
     setIsOpen(false);
     setFormMode(null);
+    setIsOpen(false);
+    setActionError(null);
+    setFormError(null);
   };
 
   const showAddForm = (data) => {
@@ -107,12 +124,13 @@ export default function TrackingTypesPage({ loaderData, actionData }) {
                   <FormContainer
                     title="New Tracking Type"
                     method="post"
-                    error={actionData?.result?.message}
+                    error={actionError}
                     close={closeModal}
                   >
                     <input type="hidden" name="action" value="add" />
                     <TextInput
                       name="name"
+                      error={formError?.name}
                       label="tracking type name"
                       placeholder="hour,kilometer,day etc."
                       autocomplete="off"
@@ -123,7 +141,7 @@ export default function TrackingTypesPage({ loaderData, actionData }) {
                   <FormContainer
                     title="Edit Tracking Type"
                     method="post"
-                    error={actionData?.result?.message}
+                    error={actionError}
                     close={closeModal}
                   >
                     {selectedData?.id && (
@@ -132,6 +150,7 @@ export default function TrackingTypesPage({ loaderData, actionData }) {
                     <input type="hidden" name="action" value="update" />
                     <TextInput
                       name="name"
+                      error={formError?.name}
                       label="tracking type name"
                       defaultValue={selectedData?.name}
                       placeholder="hour,kilometer,day etc."
@@ -143,8 +162,9 @@ export default function TrackingTypesPage({ loaderData, actionData }) {
                   <FormContainer
                     title="Delete Tracking Type"
                     method="post"
-                    error={actionData?.result?.message}
+                    error={actionError}
                     close={closeModal}
+                    cancelClose={true}
                   >
                     <span>Are you sure to delete?</span>
                     <input type="hidden" name="action" value="delete" />

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CategoryCard from "../../components/features/categories/CategoryCard/CategoryCard";
 import Navbar from "../../components/shared/Navbar/Navbar";
 import Wrapper from "../../components/shared/Wrapper/Wrapper";
@@ -25,7 +25,6 @@ export async function loader({ context }) {
   const userData = context.get(sessionContext);
 
   const list = await getCategories(userData?.userData?.token);
-  console.log(list)
   return { list };
 }
 
@@ -53,15 +52,34 @@ export async function action({ request, context }) {
 }
 
 export default function CategoriesPage({ loaderData, actionData }) {
+  console.log(actionData?.res?.success != true)
   const matches = useMatches();
   const breadcrumb = matches[matches.length - 1]?.handle?.breadcrumb;
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(actionData?.res?.success != true);
   const [formMode, setFormMode] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
+  const [actionError,setActionError] = useState(null);
+  const [formError,setFormError] = useState(null);
+
+
+  useEffect(() => {
+    if (actionData?.res?.success) {
+      setIsOpen(false);
+      setFormMode(null);
+      setSelectedData(null);
+    }
+    else{
+      setActionError(actionData?.res?.message);
+      setFormError(actionData?.res?.errors);
+    }
+  }, [actionData]);
 
   const closeModal = () => {
     setIsOpen(false);
     setFormMode(null);
+    setIsOpen(false);
+    setActionError(null);
+    setFormError(null);
   };
 
   const showAddForm = (data) => {
@@ -120,7 +138,7 @@ export default function CategoriesPage({ loaderData, actionData }) {
               title="New Category"
               action="/categories"
               method="post"
-              error={actionData?.result?.message}
+              error={actionError}
               close={closeModal}
             >
               <input type="hidden" name="action" value="add" />
@@ -128,6 +146,7 @@ export default function CategoriesPage({ loaderData, actionData }) {
                 name="name"
                 label="category name"
                 placeholder="Health & Fitness"
+                error={formError?.name}
                 autocomplete="off"
               />
             </FormContainer>
@@ -137,7 +156,7 @@ export default function CategoriesPage({ loaderData, actionData }) {
               title="Edit Category"
               action="/categories"
               method="post"
-              error={actionData?.result?.message}
+              error={actionError}
               close={closeModal}
             >
               {selectedData?.id && (
@@ -149,6 +168,7 @@ export default function CategoriesPage({ loaderData, actionData }) {
                 label="category name"
                 defaultValue={selectedData?.name}
                 placeholder="Health & Fitness"
+                error={formError?.name}
                 autocomplete="off"
               />
             </FormContainer>
@@ -158,7 +178,8 @@ export default function CategoriesPage({ loaderData, actionData }) {
               title="Delete Category"
               action="/categories"
               method="post"
-              error={actionData?.result?.message}
+              cancelClose={true}
+              error={actionError}
               close={closeModal}
             >
               <span>Are you sure to delete?</span>

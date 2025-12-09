@@ -6,9 +6,9 @@ export default function SelectInput({
   name,
   defaultValue = "",
   data = ['a','b'],
+  error,
   ...rest
 }) {
-  
   return (
     <label className={css.container}>
       <span className={css.label}>{label}</span>
@@ -25,6 +25,7 @@ export default function SelectInput({
           <option value={d?.id}>{d?.name}</option>
         ))}
       </select>
+      {error && (<span className={css.error}>{error}</span>)}
     </label>
   );
 }

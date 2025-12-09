@@ -45,7 +45,6 @@ export async function loader({ request, context, params }) {
   );
 
   const url = new URL(request.url);
-  //console.log(list?.data);
   return { list, pathname: url?.pathname };
 }
 
@@ -87,7 +86,7 @@ export async function action({ request, context, params }) {
       break;
   }
 
-  //console.log(res);
+  console.log(res);
   return { res };
 }
 
@@ -97,14 +96,26 @@ export default function ActivityLogsPage({ loaderData, actionData }) {
   const [isOpen, setIsOpen] = useState(false);
   const [formMode, setFormMode] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
+  const [actionError, setActionError] = useState();
+  const [formError, setFormError] = useState(null);
 
   useEffect(() => {
-    console.log(selectedData);
-  }, [selectedData]);
+    if (actionData?.res?.success) {
+      setIsOpen(false);
+      setFormMode(null);
+      setSelectedData(null);
+    } else {
+      setActionError(actionData?.res?.message);
+      setFormError(actionData?.res?.errors);
+    }
+  }, [actionData]);
 
   const closeModal = () => {
     setIsOpen(false);
     setFormMode(null);
+    setIsOpen(false);
+    setActionError(null);
+    setFormError(null);
   };
 
   const showAddForm = (data) => {
@@ -129,17 +140,6 @@ export default function ActivityLogsPage({ loaderData, actionData }) {
       <Navbar title="Activity Logs" openButton={showAddForm} />
       <Wrapper>
         <Breadcrumb data={breadcrumb} />
-        {/* {data.map((c) => (
-                <CategoryCard
-                  name={c.name}
-                  type={c.type}
-                  level={c.level}
-                  xp={c.xp}
-                  nextxp={c.nextxp}
-                  logs={c.logs}
-                  activitycount={c.activitycount}
-                />
-              ))} */}
         {loaderData?.list?.data?.data?.length > 0 ? (
           loaderData?.list?.data?.data?.map((c) => (
             <ActivityLogCard
@@ -167,19 +167,21 @@ export default function ActivityLogsPage({ loaderData, actionData }) {
             <FormContainer
               title="New Activity Log"
               method="post"
-              error={actionData?.result?.message}
+              error={actionError}
               close={closeModal}
             >
               <input type="hidden" name="action" value="add" />
 
               <NumberInput
                 name="activityvalue"
+                error={formError?.activityvalue}
                 label="Value"
                 placeholder="Enter value which you completed"
                 autocomplete="off"
               />
               <DateInput
                 name="activitydatetime"
+                error={formError?.activitydatetime}
                 label="Date Time"
                 placeholder="Minimum value to count min job done by tracking unit"
                 autocomplete="off"
@@ -196,7 +198,7 @@ export default function ActivityLogsPage({ loaderData, actionData }) {
             <FormContainer
               title="Edit Activity Log"
               method="post"
-              error={actionData?.result?.message}
+              error={actionError}
               close={closeModal}
             >
               {selectedData?.id && (
@@ -205,6 +207,7 @@ export default function ActivityLogsPage({ loaderData, actionData }) {
               <input type="hidden" name="action" value="update" />
               <NumberInput
                 name="activityvalue"
+                error={formError?.activityvalue}
                 label="Value"
                 placeholder="Enter value which you completed"
                 defaultValue={selectedData?.activityvalue}
@@ -212,6 +215,7 @@ export default function ActivityLogsPage({ loaderData, actionData }) {
               />
               <DateInput
                 name="activitydatetime"
+                error={formError?.activitydatetime}
                 label="Date Time"
                 placeholder="Minimum value to count min job done by tracking unit"
                 defaultValue={formatUtcToLocalDateTime(
@@ -232,8 +236,9 @@ export default function ActivityLogsPage({ loaderData, actionData }) {
             <FormContainer
               title="Delete Activity Log"
               method="post"
-              error={actionData?.result?.message}
+              error={actionError}
               close={closeModal}
+              cancelClose={true}
             >
               <span>Are you sure to delete?</span>
               <input type="hidden" name="action" value="delete" />

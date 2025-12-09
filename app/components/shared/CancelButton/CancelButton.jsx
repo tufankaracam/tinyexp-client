@@ -5,7 +5,7 @@ import css from "./CancelButton.module.css";
 
 export default function CancelButton({className,...rest}) {
   return (
-    <Button type="clear" className={`${css.button} ${className}`} {...rest}>
+    <Button type="reset" className={`${css.button} ${className}`} {...rest}>
         Cancel
     </Button>
   );
