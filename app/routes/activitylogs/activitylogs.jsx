@@ -218,9 +218,7 @@ export default function ActivityLogsPage({ loaderData, actionData }) {
                 error={formError?.activitydatetime}
                 label="Date Time"
                 placeholder="Minimum value to count min job done by tracking unit"
-                defaultValue={formatUtcToLocalDateTime(
-                  selectedData?.activitydatetime
-                )}
+                defaultValue={selectedData?.activitydatetime}
                 autocomplete="off"
               />
               <TextAreaInput
