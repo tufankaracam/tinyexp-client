@@ -1,4 +1,5 @@
-const url = "http://localhost:5000/api/v1";
+const PORT = import.meta.env.PROD ? 3000 : 5000;
+const url = `http://localhost:${PORT}/api/v1`;
 
 export const request = async ({
   route,
@@ -27,6 +28,7 @@ export const request = async ({
 };
 
 export const login = async ({ email, password }) => {
+  console.log(PORT)
   return await request({
     route: "/auth/login",
     method: "post",
