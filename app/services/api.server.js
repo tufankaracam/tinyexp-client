@@ -1,4 +1,4 @@
-const PORT = import.meta.env.PROD ? 3000 : 5000;
+const PORT = import.meta.env.PROD ? 5000 : 3000;
 const url = `http://localhost:${PORT}/api/v1`;
 
 export const request = async ({
