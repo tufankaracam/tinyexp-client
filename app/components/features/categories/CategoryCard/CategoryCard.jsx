@@ -46,6 +46,7 @@ export default function CategoryCard({
         {<InfoText label={"Level"} value={expData?.level} />}
         {<InfoText label={"Xp"} value={expData?.currentExp} />}
         {<InfoText label={"Logs"} value={data?.activitylogcount} />}
+        {data?.trackingtypename && (<InfoText label={data?.trackingtypename} value={data?.activityvalue} />)}
         {(trackingtype && value) && (
           <InfoText label={trackingtype} value={value} />
         )}

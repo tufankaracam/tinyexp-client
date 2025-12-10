@@ -1,0 +1,35 @@
+.titletext {
+  font-family: var(--third-family);
+
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* line-height: 25px; */
+  line-height: 1.25;
+  letter-spacing: 0.03em;
+  color: var(--color-grey-92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-family: var(--third-family);
+}
+
+.value {
+  font-size: 16px;
+  text-transform: uppercase;
+
+  font-weight: 400;
+  font-size: 16px;
+  /* line-height: 28px; */
+  line-height: 1.4;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--color-grey-92);
+}
+
+.subvalue {
+  font-size: 11px;
+}

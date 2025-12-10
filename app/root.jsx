@@ -40,6 +40,7 @@ export function Layout({ children }) {
         <link rel="manifest" href="/manifest.json" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="mobile-web-app-capable" content="yes" />
         <link rel="apple-touch-icon" href="/logo192.png"/>
         <Meta />
         <Links />
@@ -55,7 +56,7 @@ export function Layout({ children }) {
 }
 
 export default function App() {
-  const matches = useMatches();
+  //const matches = useMatches();
   return <Outlet />;
 }
 

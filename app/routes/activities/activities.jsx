@@ -15,6 +15,7 @@ import NumberInput from "../../components/ui/NumberInput/NumberInput";
 import TrackingTypeAddButton from "../../components/shared/TrackingTypeAddButton/TrackingTypeAddButton";
 import OpenButton from "../../components/shared/OpenButton/OpenButton";
 import BottomMenu from "../../components/shared/BottomMenu/BottomMenu";
+import PageTitle from "../../components/ui/PageTitle/PageTitle";
 
 export const handle = {
   title: "Activities",
@@ -34,6 +35,11 @@ export async function loader({ request, context, params }) {
     updateActivities,
   } = await import("../../services/api.server");
 
+  const { createBreadcrumb } = await import(
+    "../../helpers/breadcrumbHelper.server"
+  );
+  const breadcrumbs = createBreadcrumb(params);
+
   const { sessionContext } = await import("../../middleware/session.server");
   const userData = context.get(sessionContext);
 
@@ -48,6 +54,7 @@ export async function loader({ request, context, params }) {
     userData?.userData?.token,
     params?.subcatid
   );
+
   const url = new URL(request.url);
   return {
     list,
@@ -55,6 +62,7 @@ export async function loader({ request, context, params }) {
     subCategoryList,
     trackingTypeList,
     pathname: url?.pathname,
+    breadcrumbs
   };
 }
 
@@ -100,8 +108,6 @@ export async function action({ request, context, params }) {
 }
 
 export default function ActivitiesPage({ loaderData, actionData }) {
-  const matches = useMatches();
-  const breadcrumb = matches[matches.length - 1]?.handle?.breadcrumb;
   const [isOpen, setIsOpen] = useState(false);
   const [formMode, setFormMode] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
@@ -148,7 +154,8 @@ export default function ActivitiesPage({ loaderData, actionData }) {
   return (
     <div className="page">
       <Navbar title="Activities" openButton={showAddForm} />
-      <Breadcrumb data={breadcrumb} />
+      <Breadcrumb data={loaderData?.breadcrumbs} />
+      <PageTitle value={loaderData?.list?.data?.name} />
       <div className="container">
         {loaderData?.list?.data?.data?.length > 0 ? (
           loaderData?.list?.data?.data?.map((c) => (

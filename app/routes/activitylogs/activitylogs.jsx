@@ -21,6 +21,8 @@ import {
   formatUtcToUtcInput,
 } from "../../helpers/dateHelper";
 import BottomMenu from "../../components/shared/BottomMenu/BottomMenu";
+import TitleText from "../../components/ui/TitleText/TitleText";
+import PageTitle from "../../components/ui/PageTitle/PageTitle";
 
 export const handle = {
   title: "Activity Logs",
@@ -37,6 +39,10 @@ export async function loader({ request, context, params }) {
     updateActivityLogs,
   } = await import("../../services/api.server");
 
+  const { createBreadcrumb } = await import(
+    "../../helpers/breadcrumbHelper.server"
+  );
+  const breadcrumbs = createBreadcrumb(params);
   const { sessionContext } = await import("../../middleware/session.server");
   const userData = context.get(sessionContext);
 
@@ -46,7 +52,7 @@ export async function loader({ request, context, params }) {
   );
 
   const url = new URL(request.url);
-  return { list, pathname: url?.pathname };
+  return { list, pathname: url?.pathname, breadcrumbs };
 }
 
 export async function action({ request, context, params }) {
@@ -86,20 +92,16 @@ export async function action({ request, context, params }) {
       });
       break;
   }
-
-  console.log(res);
   return { res };
 }
 
 export default function ActivityLogsPage({ loaderData, actionData }) {
-  const matches = useMatches();
-  const breadcrumb = matches[matches.length - 1]?.handle?.breadcrumb;
   const [isOpen, setIsOpen] = useState(false);
   const [formMode, setFormMode] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
   const [actionError, setActionError] = useState();
   const [formError, setFormError] = useState(null);
-
+  
   useEffect(() => {
     if (actionData?.res?.success) {
       setIsOpen(false);
@@ -139,7 +141,11 @@ export default function ActivityLogsPage({ loaderData, actionData }) {
   return (
     <div className="page">
       <Navbar title="Activity Logs" openButton={showAddForm} />
-      <Breadcrumb data={breadcrumb} />
+      <Breadcrumb data={loaderData?.breadcrumbs} />
+      <PageTitle
+        value={loaderData?.list?.data?.name}
+        subvalue={loaderData?.list?.data?.trackingtypename}
+      />
       <div className="container">
         {loaderData?.list?.data?.data?.length > 0 ? (
           loaderData?.list?.data?.data?.map((c) => (
@@ -248,7 +254,7 @@ export default function ActivityLogsPage({ loaderData, actionData }) {
           )}
         </Modal>
       </div>
-      <BottomMenu/>
+      <BottomMenu />
     </div>
   );
 }
