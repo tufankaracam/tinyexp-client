@@ -25,7 +25,7 @@ export async function action({ request, context }) {
   const sessionContext = await import("../../session.server/userSession");
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
-  const result = {}//= await login({ email: data.email});
+  const result = {}; //= await login({ email: data.email});
   if (result?.success) {
     //setUserDataBySession(sessionId, { loggedIn: true, ...result?.data });
     return redirect("/");
