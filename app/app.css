@@ -106,10 +106,29 @@ body,
   
   padding: 16px;
   overflow: auto;
+  align-items: center;
 }
 
 .container > div{
     max-width: 480px;
     width: 100%;
     margin: 0 auto;
+}
+
+.formlinkitems{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  list-style: none;
+}
+
+.formlinkitem{
+
+}
+
+.formlink{
+  color: white;
+  text-decoration: none;
+  font-size: 19px;
 }
