@@ -21,5 +21,6 @@ export default [
   layout("layouts/AuthLayout/AuthLayout.jsx", [
     route("/login", "routes/login/login.jsx"),
     route("/register", "routes/register/register.jsx"),
+    route("/forgotpassword", "routes/forgotpassword/forgotpassword.jsx"),
   ]),
 ];

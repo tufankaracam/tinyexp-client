@@ -12,9 +12,7 @@ import { restrictedRouteMiddleware } from "../../middleware/restrictedRoute.serv
 import { getSession } from "../../session.server/userSession";
 import css from "./register.module.css";
 
-export const middleware = [
-  restrictedRouteMiddleware,
-];
+export const middleware = [restrictedRouteMiddleware];
 
 export async function action({ request, context }) {
   const { register } = await import("../../services/api.server");
@@ -26,8 +24,13 @@ export async function action({ request, context }) {
   const sessionContext = await import("../../session.server/userSession");
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
-  const result = await register({ email: data.email,username: data.username, password: data.password,password2: data.password2 });
-  console.log(result)
+  const result = await register({
+    email: data.email,
+    username: data.username,
+    password: data.password,
+    password2: data.password2,
+  });
+  console.log(result);
   if (result?.success) {
     setUserDataBySession(sessionId, { loggedIn: true, ...result?.data });
     return redirect("/");
@@ -35,15 +38,40 @@ export async function action({ request, context }) {
   return { result };
 }
 
-export default function RegisterPage({actionData}) {
+export default function RegisterPage({ actionData }) {
   return (
-    <Wrapper>
-      <FormContainer title="Register" action="/register" method="post" error={actionData?.result?.message}>
+    <div className="container">
+      <FormContainer
+        title="Register"
+        action="/register"
+        method="post"
+        error={actionData?.result?.message}
+      >
         <EmailInput name="email" label="email" placeholder="user@example.com" />
         <TextInput name="username" label="username" placeholder="john" />
-        <PasswordInput name="password" label="password" placeholder="strong password" />
-        <PasswordInput name="password2" label="password confirm" placeholder="repeat password" />
+        <PasswordInput
+          name="password"
+          label="password"
+          placeholder="strong password"
+        />
+        <PasswordInput
+          name="password2"
+          label="password confirm"
+          placeholder="repeat password"
+        />
       </FormContainer>
-    </Wrapper>
+      <ul className="formlinkitems">
+        <li className="formlinkitem">
+          <a className="formlink" href="/register">
+            New Account
+          </a>
+        </li>
+        <li className="formlinkitem">
+          <a className="formlink" href="/forgotpassword">
+            Forgot Password?
+          </a>
+        </li>
+      </ul>
+    </div>
   );
 }

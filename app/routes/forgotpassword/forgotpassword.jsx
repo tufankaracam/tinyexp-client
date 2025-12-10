@@ -7,10 +7,9 @@ import PasswordInput from "../../components/ui/PasswordInput/PasswordInput";
 import SelectInput from "../../components/ui/SelectInput/SelectInput";
 import TextAreaInput from "../../components/ui/TextAreaInput/TextAreaInput";
 import TextInput from "../../components/ui/TextInput/TextInput";
-import css from "./login.module.css";
+import css from "./forgotpassword.module.css";
 import { restrictedRouteMiddleware } from "../../middleware/restrictedRoute.server";
 import FormContainer from "../../components/ui/FormContainer/FormContainer";
-import { ToastContainer, toast } from "react-toastify";
 import { getSession } from "../../session.server/userSession";
 import { useEffect } from "react";
 
@@ -26,39 +25,33 @@ export async function action({ request, context }) {
   const sessionContext = await import("../../session.server/userSession");
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
-  const result = await login({ email: data.email, password: data.password });
+  const result = {}//= await login({ email: data.email});
   if (result?.success) {
-    setUserDataBySession(sessionId, { loggedIn: true, ...result?.data });
+    //setUserDataBySession(sessionId, { loggedIn: true, ...result?.data });
     return redirect("/");
   }
   return { result };
 }
 
-export default function LoginPage({ actionData }) {
+export default function ForgotPasswordPage({ actionData }) {
   return (
     <div className="container">
       <FormContainer
-        title="Login"
-        action="/login"
+        title="Forgot Password"
         method="post"
         error={actionData?.result?.message}
       >
         <EmailInput name="email" label="email" placeholder="user@example.com" />
-        <PasswordInput
-          name="password"
-          label="password"
-          placeholder="password"
-        />
       </FormContainer>
       <ul className="formlinkitems">
         <li className="formlinkitem">
-          <a className="formlink" href="/register">
-            New Account
+          <a className="formlink" href="/login">
+            Login
           </a>
         </li>
         <li className="formlinkitem">
-          <a className="formlink" href="/forgotpassword">
-            Forgot Password?
+          <a className="formlink" href="/register">
+            New Account
           </a>
         </li>
       </ul>
