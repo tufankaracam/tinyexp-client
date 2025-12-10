@@ -5,7 +5,7 @@ export default function EmailInput({ label="text label",placeholder="placeholder
     <label className={css.container}>
       <span className={css.label}>{label}</span>
       <input className={css.input} type="email" name={name} placeholder={placeholder} {...rest} />
-      {error && (<span>{error}</span>)}
+      {error && (<span className={css.error}>{error}</span>)}
     </label>
   );
 }

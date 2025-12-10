@@ -43,17 +43,18 @@ export default function LoginPage({ actionData }) {
         method="post"
         error={actionData?.result?.message}
       >
-        <EmailInput name="email" label="email" placeholder="user@example.com" />
+        <EmailInput name="email" label="email" error={actionData?.result?.errors?.email} placeholder="user@example.com" />
         <PasswordInput
           name="password"
           label="password"
+          error={actionData?.result?.errors?.password}
           placeholder="password"
         />
       </FormContainer>
       <ul className="formlinkitems">
         <li className="formlinkitem">
           <a className="formlink" href="/register">
-            New Account
+            Create Account
           </a>
         </li>
         <li className="formlinkitem">

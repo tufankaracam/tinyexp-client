@@ -30,7 +30,6 @@ export async function action({ request, context }) {
     password: data.password,
     password2: data.password2,
   });
-  console.log(result);
   if (result?.success) {
     setUserDataBySession(sessionId, { loggedIn: true, ...result?.data });
     return redirect("/");
@@ -39,6 +38,7 @@ export async function action({ request, context }) {
 }
 
 export default function RegisterPage({ actionData }) {
+  console.log(actionData)
   return (
     <div className="container">
       <FormContainer
@@ -47,23 +47,25 @@ export default function RegisterPage({ actionData }) {
         method="post"
         error={actionData?.result?.message}
       >
-        <EmailInput name="email" label="email" placeholder="user@example.com" />
-        <TextInput name="username" label="username" placeholder="john" />
+        <EmailInput name="email" label="email" error={actionData?.result?.errors?.email} placeholder="user@example.com" />
+        <TextInput name="username" label="username" error={actionData?.result?.errors?.username} placeholder="john" />
         <PasswordInput
           name="password"
           label="password"
           placeholder="strong password"
+          error={actionData?.result?.errors?.password}
         />
         <PasswordInput
           name="password2"
           label="password confirm"
           placeholder="repeat password"
+          error={actionData?.result?.errors?.password2}
         />
       </FormContainer>
       <ul className="formlinkitems">
         <li className="formlinkitem">
-          <a className="formlink" href="/register">
-            New Account
+          <a className="formlink" href="/login">
+            Already have an account?
           </a>
         </li>
         <li className="formlinkitem">

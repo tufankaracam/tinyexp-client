@@ -38,3 +38,7 @@
   line-height: 1.5;
   color: var(--color-white--700);
 }
+
+.error{
+  color: var(--color-red-42);
+}

@@ -46,12 +46,12 @@ export default function ForgotPasswordPage({ actionData }) {
       <ul className="formlinkitems">
         <li className="formlinkitem">
           <a className="formlink" href="/login">
-            Login
+            Already have an account?
           </a>
         </li>
         <li className="formlinkitem">
           <a className="formlink" href="/register">
-            New Account
+            Create Account
           </a>
         </li>
       </ul>
