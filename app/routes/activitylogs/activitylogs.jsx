@@ -20,6 +20,7 @@ import {
   formatUtcToLocalDateTime,
   formatUtcToUtcInput,
 } from "../../helpers/dateHelper";
+import BottomMenu from "../../components/shared/BottomMenu/BottomMenu";
 
 export const handle = {
   title: "Activity Logs",
@@ -136,10 +137,10 @@ export default function ActivityLogsPage({ loaderData, actionData }) {
   };
 
   return (
-    <div>
+    <div className="page">
       <Navbar title="Activity Logs" openButton={showAddForm} />
-      <Wrapper>
-        <Breadcrumb data={breadcrumb} />
+      <Breadcrumb data={breadcrumb} />
+      <div className="container">
         {loaderData?.list?.data?.data?.length > 0 ? (
           loaderData?.list?.data?.data?.map((c) => (
             <ActivityLogCard
@@ -246,7 +247,8 @@ export default function ActivityLogsPage({ loaderData, actionData }) {
             </FormContainer>
           )}
         </Modal>
-      </Wrapper>
+      </div>
+      <BottomMenu/>
     </div>
   );
 }

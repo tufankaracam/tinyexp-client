@@ -66,9 +66,9 @@ export function ErrorBoundary({ error }) {
   let stack;
 
   if (isRouteErrorResponse(error)) {
-    //return navigate('/')
-    details = error.message;
-    stack = error.stack;
+    return navigate('/')
+    //details = error.message;
+    //stack = error.stack;
   } else if (import.meta.env.DEV && error && error instanceof Error) {
     details = error.message;
     stack = error.stack;

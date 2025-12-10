@@ -14,6 +14,7 @@ import SelectInput from "../../components/ui/SelectInput/SelectInput";
 import NumberInput from "../../components/ui/NumberInput/NumberInput";
 import TrackingTypeAddButton from "../../components/shared/TrackingTypeAddButton/TrackingTypeAddButton";
 import OpenButton from "../../components/shared/OpenButton/OpenButton";
+import BottomMenu from "../../components/shared/BottomMenu/BottomMenu";
 
 export const handle = {
   title: "Activities",
@@ -146,10 +147,10 @@ export default function ActivitiesPage({ loaderData, actionData }) {
   };
 
   return (
-    <div>
+    <div className="page">
       <Navbar title="Activities" openButton={showAddForm} />
-      <Wrapper>
-        <Breadcrumb data={breadcrumb} />
+      <Breadcrumb data={breadcrumb} />
+      <div className="container">
         {loaderData?.list?.data?.data?.length > 0 ? (
           loaderData?.list?.data?.data?.map((c) => (
             <CategoryCard
@@ -283,7 +284,8 @@ export default function ActivitiesPage({ loaderData, actionData }) {
             </FormContainer>
           )}
         </Modal>
-      </Wrapper>
+      </div>
+      <BottomMenu />
     </div>
   );
 }

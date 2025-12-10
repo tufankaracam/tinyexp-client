@@ -2,6 +2,8 @@
     display: flex;
     font-size: 14px;
     color: var(--color-cadet-blue);
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--color-yellow-52-200);
 }
 
 .route:not(:last-child)::after{

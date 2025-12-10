@@ -11,6 +11,7 @@ import Modal from "../../components/ui/Modal/Modal";
 import FormContainer from "../../components/ui/FormContainer/FormContainer";
 import TextInput from "../../components/ui/TextInput/TextInput";
 import SelectInput from "../../components/ui/SelectInput/SelectInput";
+import BottomMenu from "../../components/shared/BottomMenu/BottomMenu";
 
 export const handle = {
   title: "Subcategories",
@@ -131,10 +132,10 @@ export default function SubCategoriesPage({ loaderData, actionData }) {
   };
 
   return (
-    <div>
+    <div className="page">
       <Navbar title="Subcategories" openButton={showAddForm} />
-      <Wrapper>
-        <Breadcrumb data={breadcrumb} />
+      <Breadcrumb data={breadcrumb} />
+      <div className="container">
         {loaderData?.list?.data?.data?.length > 0 ? (
           loaderData?.list?.data?.data?.map((c) => (
             <CategoryCard
@@ -225,7 +226,8 @@ export default function SubCategoriesPage({ loaderData, actionData }) {
             </FormContainer>
           )}
         </Modal>
-      </Wrapper>
+      </div>
+      <BottomMenu/>
     </div>
   );
 }

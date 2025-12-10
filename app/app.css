@@ -74,7 +74,8 @@
 }
 
 html,
-body,#root {
+body,
+#root {
   height: 100dvh;
   margin: 0;
   padding: 0;
@@ -89,7 +90,26 @@ body,#root {
   box-sizing: border-box;
 }
 
+.page {
+  max-height: 100dvh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
 .container {
   display: flex;
   flex-direction: column;
+  flex: 1;
+  gap: 25px;
+  width: 100%;
+  
+  padding: 16px;
+  overflow: auto;
+}
+
+.container > div{
+    max-width: 480px;
+    width: 100%;
+    margin: 0 auto;
 }
