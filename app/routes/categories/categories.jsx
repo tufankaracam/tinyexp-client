@@ -11,7 +11,13 @@ import Card from "../../components/ui/Card/Card";
 import FormContainer from "../../components/ui/FormContainer/FormContainer";
 import TextInput from "../../components/ui/TextInput/TextInput";
 import { protectedRouteMiddleware } from "../../middleware/protectedRoute.server";
-import { createCategories, deleteCategories, getCategories, updateCategories } from "../../services/api.server";
+import {
+  createCategories,
+  deleteCategories,
+  getCategories,
+  updateCategories,
+} from "../../services/api.server";
+import BottomMenu from "../../components/shared/BottomMenu/BottomMenu";
 
 export const handle = {
   title: "Categories",
@@ -34,17 +40,27 @@ export async function action({ request, context }) {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
 
-  let res = null;;
+  let res = null;
 
   switch (data?.action) {
     case "add":
-      res = await createCategories({token:userData?.userData?.token,name:data?.name})
+      res = await createCategories({
+        token: userData?.userData?.token,
+        name: data?.name,
+      });
       break;
     case "update":
-      res = await updateCategories({token:userData?.userData?.token,name:data?.name,id:data?.id})
+      res = await updateCategories({
+        token: userData?.userData?.token,
+        name: data?.name,
+        id: data?.id,
+      });
       break;
     case "delete":
-      res = await deleteCategories({token:userData?.userData?.token,id:data?.id})
+      res = await deleteCategories({
+        token: userData?.userData?.token,
+        id: data?.id,
+      });
       break;
   }
 
@@ -57,17 +73,15 @@ export default function CategoriesPage({ loaderData, actionData }) {
   const [isOpen, setIsOpen] = useState(actionData?.res?.success != true);
   const [formMode, setFormMode] = useState(false);
   const [selectedData, setSelectedData] = useState(null);
-  const [actionError,setActionError] = useState(null);
-  const [formError,setFormError] = useState(null);
-
+  const [actionError, setActionError] = useState(null);
+  const [formError, setFormError] = useState(null);
 
   useEffect(() => {
     if (actionData?.res?.success) {
       setIsOpen(false);
       setFormMode(null);
       setSelectedData(null);
-    }
-    else{
+    } else {
       setActionError(actionData?.res?.message);
       setFormError(actionData?.res?.errors);
     }
@@ -98,12 +112,10 @@ export default function CategoriesPage({ loaderData, actionData }) {
     setIsOpen(true);
   };
 
-
   return (
-    <div>
+    <div className="page">
       <Navbar title="Categories" openButton={showAddForm} />
-      <Wrapper>
-        <Breadcrumb data={breadcrumb} />
+      <div className="container">
         {loaderData?.list?.data?.length > 0 ? (
           loaderData?.list?.data?.map((c) => (
             <CategoryCard
@@ -189,7 +201,8 @@ export default function CategoriesPage({ loaderData, actionData }) {
             </FormContainer>
           )}
         </Modal>
-      </Wrapper>
+      </div>
+      <BottomMenu/>
     </div>
   );
 }

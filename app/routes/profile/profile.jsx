@@ -32,6 +32,7 @@ import ChangePasswordButton from "../../components/shared/ChangePasswordButton/C
 import { useMatches, useSubmit } from "react-router";
 import { useState } from "react";
 import Modal from "../../components/ui/Modal/Modal";
+import BottomMenu from "../../components/shared/BottomMenu/BottomMenu";
 
 export const handle = {
   title: "Profile Page",
@@ -81,11 +82,11 @@ export default function ProfilePage({ loaderData,actionData }) {
   };
 
   return (
-    <div>
+    <div className="page">
       <Navbar title="Profile" />
-      <Wrapper>
-        <TitleText value={"Profile Details"} />
+      <div className="container">
         <Card>
+        <TitleText value={"Profile Details"} />
           <InfoTextFree
             label={"Username"}
             value={loaderData?.userData?.userData?.username}
@@ -132,7 +133,8 @@ export default function ProfilePage({ loaderData,actionData }) {
             />
           </FormContainer>
         </Modal>
-      </Wrapper>
+      </div>
+      <BottomMenu />
     </div>
   );
 }
