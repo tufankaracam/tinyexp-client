@@ -5,7 +5,7 @@ import css from "./Navbar.module.css";
 export default function Navbar({ title = "Title", openButton }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const paths = ["/", "/categories", "/latest"];
+  const paths = ["/", "/categories", "/latest","/profile"];
   return (
     <div className={css.navbar}>
       <div className={`${css.holder} ${css.left}`}>

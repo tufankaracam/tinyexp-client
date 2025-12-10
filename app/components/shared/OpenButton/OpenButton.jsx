@@ -4,7 +4,7 @@ import css from "./OpenButton.module.css";
 
 export default function OpenButton({text="Open",...rest}) {
   return (
-    <Button className={css.button} {...rest}>
+    <Button type="button" className={css.button} {...rest}>
         {text}
       <FaArrowRight size={24}/>
     </Button>

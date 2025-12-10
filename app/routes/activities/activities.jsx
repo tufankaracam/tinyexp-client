@@ -96,7 +96,6 @@ export async function action({ request, context, params }) {
       });
       break;
   }
-  console.log(res);
   return { res };
 }
 
@@ -255,7 +254,7 @@ export default function ActivitiesPage({ loaderData, actionData }) {
               <OpenButton
                 text="Tracking Types"
                 onClick={() => {
-                  navigate("/trackingtypes", { replace: true });
+                  navigate("/trackingtypes");
                 }}
               />
               <NumberInput

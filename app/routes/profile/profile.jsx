@@ -36,7 +36,7 @@ import BottomMenu from "../../components/shared/BottomMenu/BottomMenu";
 
 export const handle = {
   title: "Profile Page",
-  path: "> profile",
+  breadcrumb: ["profile"],
 };
 
 export const middleware = [protectedRouteMiddleware];
