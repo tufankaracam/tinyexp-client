@@ -23,16 +23,17 @@ import PasswordInput from "../../components/ui/PasswordInput/PasswordInput";
 import DateInput from "../../components/ui/DateInput/DateInput";
 import SelectInput from "../../components/ui/SelectInput/SelectInput";
 import { protectedRouteMiddleware } from "../../middleware/protectedRoute.server";
-import { sessionContext } from "../../middleware/session.server";
+
 import TitleText from "../../components/ui/TitleText/TitleText";
 import InfoText from "../../components/ui/InfoText/InfoText";
 import InfoTextFree from "../../components/ui/InfoTextFree/InfoTextFree";
 import LogoutButton from "../../components/shared/LogoutButton/LogoutButton";
 import ChangePasswordButton from "../../components/shared/ChangePasswordButton/ChangePasswordButton";
 import { useMatches, useSubmit } from "react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "../../components/ui/Modal/Modal";
 import BottomMenu from "../../components/shared/BottomMenu/BottomMenu";
+import { changePassword } from "../../services/api.server";
 
 export const handle = {
   title: "Profile Page",
@@ -42,35 +43,57 @@ export const handle = {
 export const middleware = [protectedRouteMiddleware];
 
 export async function loader({ request, context }) {
+  const { sessionContext } = await import("../../middleware/session.server");
   const userData = context.get(sessionContext);
   return { userData };
 }
 
 export async function action({ request, context }) {
+  const { sessionContext } = await import("../../middleware/session.server");
   const { deleteUserDataBySession } = await import(
     "../../services/userSessionManager.server"
   );
   const userData = context.get(sessionContext);
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
-  
-  switch(data?.action){
+
+  switch (data?.action) {
     case "logout":
       deleteUserDataBySession(userData?.sessionId);
       break;
     case "changepassword":
-      console.log(data);
-      break;
+      const result = await changePassword({
+        token: userData?.userData?.token,
+        oldpassword: data?.oldpassword,
+        password: data?.password,
+        password2: data?.password2,
+      });
+      return { result };
   }
 }
 
-export default function ProfilePage({ loaderData,actionData }) {
+export default function ProfilePage({ loaderData, actionData }) {
   const matches = useMatches();
   const breadcrumb = matches[matches.length - 1]?.handle?.breadcrumb;
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(actionData?.result?.success != true);
+  const [actionError, setActionError] = useState(null);
+  const [formError, setFormError] = useState(null);
   const submit = useSubmit();
+
+  useEffect(() => {
+    if (actionData?.result?.success) {
+      setIsOpen(false);
+    } else {
+      setActionError(actionData?.result?.message);
+      setFormError(actionData?.result?.errors);
+    }
+  }, [actionData]);
+
   const closeModal = () => {
     setIsOpen(false);
+    setIsOpen(false);
+    setActionError(null);
+    setFormError(null);
   };
 
   const openModal = (data) => {
@@ -86,7 +109,7 @@ export default function ProfilePage({ loaderData,actionData }) {
       <Navbar title="Profile" />
       <div className="container">
         <Card>
-        <TitleText value={"Profile Details"} />
+          <TitleText value={"Profile Details"} />
           <InfoTextFree
             label={"Username"}
             value={loaderData?.userData?.userData?.username}
@@ -114,19 +137,22 @@ export default function ProfilePage({ loaderData,actionData }) {
           >
             <input type="hidden" name="action" value="changepassword" />
             <PasswordInput
-              name="currentpassword"
+              name="oldpassword"
+              error={actionData?.result?.errors?.oldpassword}
               label="current password"
               placeholder="Current Password"
               autocomplete="off"
             />
             <PasswordInput
-              name="newpassword"
+              name="password"
+              error={actionData?.result?.errors?.password}
               label="new password"
               placeholder="New Password"
               autocomplete="off"
             />
             <PasswordInput
-              name="newpassword2"
+              name="password2"
+              error={actionData?.result?.errors?.password2}
               label="confirm new password"
               placeholder="New Password"
               autocomplete="off"

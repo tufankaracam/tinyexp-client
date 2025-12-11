@@ -47,6 +47,15 @@ export const register = async ({ email, username, password, password2 }) => {
   });
 };
 
+export const changePassword = async ({ token, oldpassword, password, password2 }) => {
+  return await request({
+    route: "/auth/changepassword",
+    method: "post",
+    token,
+    body: { oldpassword, password, password2 },
+  });
+};
+
 export const getCategories = async (token) => {
   return await request({
     route: `/categories`,
