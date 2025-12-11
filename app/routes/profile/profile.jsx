@@ -75,7 +75,7 @@ export async function action({ request, context }) {
 export default function ProfilePage({ loaderData, actionData }) {
   const matches = useMatches();
   const breadcrumb = matches[matches.length - 1]?.handle?.breadcrumb;
-  const [isOpen, setIsOpen] = useState(actionData?.result?.success != true);
+  const [isOpen, setIsOpen] = useState(false);
   const [actionError, setActionError] = useState(null);
   const [formError, setFormError] = useState(null);
   const submit = useSubmit();

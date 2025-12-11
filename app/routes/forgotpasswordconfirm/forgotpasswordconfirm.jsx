@@ -7,18 +7,27 @@ import PasswordInput from "../../components/ui/PasswordInput/PasswordInput";
 import SelectInput from "../../components/ui/SelectInput/SelectInput";
 import TextAreaInput from "../../components/ui/TextAreaInput/TextAreaInput";
 import TextInput from "../../components/ui/TextInput/TextInput";
-import css from "./forgotpassword.module.css";
+import css from "./forgotpasswordconfirm.module.css";
 import { restrictedRouteMiddleware } from "../../middleware/restrictedRoute.server";
 import FormContainer from "../../components/ui/FormContainer/FormContainer";
 import { getSession } from "../../session.server/userSession";
 import { useEffect, useState } from "react";
-import { resetPasswordRequest } from "../../services/api.server";
 import Card from "../../components/ui/Card/Card";
 
 export const middleware = [restrictedRouteMiddleware];
 
-export async function action({ request, context }) {
-  const { login } = await import("../../services/api.server");
+export async function loader({request,params}){
+    const { resetPasswordConfirm, resetPasswordRequest, resetPasswordStatus  } = await import("../../services/api.server");
+
+  const checkResetCode = await resetPasswordStatus({resetcode:params?.resetcode});
+  if(!checkResetCode?.success){
+    throw redirect('/');
+  }
+
+}
+
+export async function action({ request, context,params }) {
+  const { resetPasswordConfirm, resetPasswordRequest, resetPasswordStatus  } = await import("../../services/api.server");
   const { setUserDataBySession } = await import(
     "../../services/userSessionManager.server"
   );
@@ -28,11 +37,14 @@ export async function action({ request, context }) {
 
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
-  const result = await resetPasswordRequest({ email: data.email});
-  return { result };
+  
+  console.log(data);
+  const result = await resetPasswordConfirm({ resetcode:params?.resetcode,password: data.password,password2: data.password2});
+  console.log(result);
+  return {result};
 }
 
-export default function ForgotPasswordPage({ actionData }) {
+export default function ForgotPasswordConfirmPage({ actionData }) {
   const [completed,setCompleted] = useState(false);
   useEffect(()=>{
     if(actionData?.result?.success){
@@ -42,24 +54,13 @@ export default function ForgotPasswordPage({ actionData }) {
   return (
     <div className="container">
       {!completed ? (<><FormContainer
-        title="Forgot Password"
+        title="Update Password"
         method="post"
         error={actionData?.result?.message}
       >
-        <EmailInput name="email" label="email" error={actionData?.result?.errors?.email} placeholder="user@example.com" />
+        <PasswordInput name="password" label="password" error={actionData?.result?.errors?.password} placeholder="example Secret123!" />
+        <PasswordInput name="password2" label="password confirm" error={actionData?.result?.errors?.password2} placeholder="example Secret123!" />
       </FormContainer>
-      <ul className="formlinkitems">
-        <li className="formlinkitem">
-          <a className="formlink" href="/login">
-            Already have an account?
-          </a>
-        </li>
-        <li className="formlinkitem">
-          <a className="formlink" href="/register">
-            Create Account
-          </a>
-        </li>
-      </ul>
       </>) : (<><Card>{actionData?.result?.message}</Card><ul className="formlinkitems">
         <li className="formlinkitem">
           <a className="formlink" href="/login">

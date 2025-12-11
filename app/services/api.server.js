@@ -47,7 +47,12 @@ export const register = async ({ email, username, password, password2 }) => {
   });
 };
 
-export const changePassword = async ({ token, oldpassword, password, password2 }) => {
+export const changePassword = async ({
+  token,
+  oldpassword,
+  password,
+  password2,
+}) => {
   return await request({
     route: "/auth/changepassword",
     method: "post",
@@ -169,20 +174,33 @@ export const getActivitiesById = async (token, subcategoryid) => {
   });
 };
 
-export const createActivities = async ({ token, name, subcategoryid,trackingtypeid,minvalue }) => {
+export const createActivities = async ({
+  token,
+  name,
+  subcategoryid,
+  trackingtypeid,
+  minvalue,
+}) => {
   return await request({
     route: `/activities`,
     method: "post",
-    body: { name, subcategoryid,trackingtypeid,minvalue },
+    body: { name, subcategoryid, trackingtypeid, minvalue },
     token,
   });
 };
 
-export const updateActivities = async ({ token, name, subcategoryid,trackingtypeid,minvalue, id }) => {
+export const updateActivities = async ({
+  token,
+  name,
+  subcategoryid,
+  trackingtypeid,
+  minvalue,
+  id,
+}) => {
   return await request({
     route: `/activities/${id}`,
     method: "put",
-    body: { name, subcategoryid,trackingtypeid,minvalue },
+    body: { name, subcategoryid, trackingtypeid, minvalue },
     token,
   });
 };
@@ -202,20 +220,32 @@ export const getActivityLogsById = async (token, activityid) => {
   });
 };
 
-export const createActivityLogs = async ({ token, activityid,activityvalue,activitydatetime,activitynote }) => {
+export const createActivityLogs = async ({
+  token,
+  activityid,
+  activityvalue,
+  activitydatetime,
+  activitynote,
+}) => {
   return await request({
     route: `/activitylogs`,
     method: "post",
-    body: { activityid,activityvalue,activitydatetime,activitynote  },
+    body: { activityid, activityvalue, activitydatetime, activitynote },
     token,
   });
 };
 
-export const updateActivityLogs = async ({ token, activityvalue,activitydatetime,activitynote, id }) => {
+export const updateActivityLogs = async ({
+  token,
+  activityvalue,
+  activitydatetime,
+  activitynote,
+  id,
+}) => {
   return await request({
     route: `/activitylogs/${id}`,
     method: "put",
-    body: { activityvalue,activitydatetime,activitynote },
+    body: { activityvalue, activitydatetime, activitynote },
     token,
   });
 };
@@ -225,5 +255,34 @@ export const deleteActivityLogs = async ({ token, id }) => {
     route: `/activitylogs/${id}`,
     method: "delete",
     token,
+  });
+};
+
+export const resetPasswordRequest = async ({ email }) => {
+  return await request({
+    route: `/auth/resetpassword`,
+    method: "post",
+    body: { email },
+    token: null,
+  });
+};
+
+export const resetPasswordStatus = async ({ resetcode }) => {
+  return await request({
+    route: `/auth/resetpassword/${resetcode}`,
+    token: null,
+  });
+};
+
+export const resetPasswordConfirm = async ({
+  resetcode,
+  password,
+  password2,
+}) => {
+  return await request({
+    route: `/auth/resetpassword/${resetcode}`,
+    method: "post",
+    body: { password, password2 },
+    token: null,
   });
 };

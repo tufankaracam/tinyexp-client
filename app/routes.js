@@ -22,5 +22,6 @@ export default [
     route("/login", "routes/login/login.jsx"),
     route("/register", "routes/register/register.jsx"),
     route("/forgotpassword", "routes/forgotpassword/forgotpassword.jsx"),
+    route("/forgotpassword/:resetcode", "routes/forgotpasswordconfirm/forgotpasswordconfirm.jsx"),
   ]),
 ];
