@@ -38,9 +38,7 @@ export async function action({ request, context,params }) {
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
   
-  console.log(data);
   const result = await resetPasswordConfirm({ resetcode:params?.resetcode,password: data.password,password2: data.password2});
-  console.log(result);
   return {result};
 }
 
