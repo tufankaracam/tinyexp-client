@@ -54,7 +54,6 @@ export default function CategoryCard({
       
       {expData?.requiredTotalExp>0 && (<ProgressBar color="#F2B90D" maxValue={expData?.requiredTotalExp} value={expData?.currentExp} height={21} />)}
       
-
       <InfoGroup>
           {data?.categorycount !=undefined && (<InfoTextFree label="Categories" value={data?.categorycount} />)}
           {data?.subcategorycount !=undefined && (<InfoTextFree label="Subcategories" value={data?.subcategorycount} />)}
